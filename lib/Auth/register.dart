@@ -11,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +24,44 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'asset/register.png', // Make sure the path is correct
+              width: 200,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
             ),
-            TextField(
+            TextFormField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: !_isPasswordVisible,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _handleRegister(context);
-              },
-              child: const Text('Register'),
-            ),
+          const SizedBox(height: 20),
+ElevatedButton(
+  onPressed: () {
+    _handleRegister(context);
+  },
+  style: ElevatedButton.styleFrom(
+    primary: Colors.green, // Set the background color to green
+    onPrimary: Colors.white, // Set the text color to white
+    minimumSize: const Size(200, 48), // Set the width and height of the button
+  ),
+  child: const Text('Register now'),
+),
+
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {

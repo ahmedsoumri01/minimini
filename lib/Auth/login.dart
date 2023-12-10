@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +23,56 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'asset/login1.png', // Make sure the path is correct
-            width: 90,
-            height: 90,
+            'asset/login.png',
+            height: 200,
+             width: 250,
             fit: BoxFit.cover,
           ),
           TextField(
             controller: _emailController,
             decoration: const InputDecoration(labelText: 'Email'),
           ),
-          TextField(
+          TextFormField(
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(labelText: 'Password'),
+            obscureText: !_isPasswordVisible,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              suffixIcon: IconButton(
+                icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              ),
+            ),
           ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              _handleLogin(context);
-            },
-            child: const Text('Login'),
-          ),
-          const SizedBox(height: 20),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/register');
-            },
-            child: const Text('Don\'t have an account? Register now'),
-          ),
+       const SizedBox(height: 20),
+ElevatedButton(
+  onPressed: () {
+    _handleLogin(context);
+  },
+  style: ElevatedButton.styleFrom(
+    primary: Colors.blue, // Set the background color to blue
+    onPrimary: Colors.white, // Set the text color to white
+    minimumSize: const Size(200, 50), // Set the button width and height
+  ),
+  child: const Text('Login'),
+),
+        const SizedBox(height: 20),
+TextButton(
+  onPressed: () {
+    Navigator.pushNamed(context, '/register');
+  },
+  style: TextButton.styleFrom(
+    foregroundColor: Colors.black, // Set the text color to black using foregroundColor
+
+  ),
+  child: const Text('Don\'t have an account? Register now',style: TextStyle(
+    decoration: TextDecoration.underline
+  ),),
+),
+
         ],
       ),
     );
